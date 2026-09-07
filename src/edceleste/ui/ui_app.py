@@ -1,6 +1,7 @@
 import logging
 
 from textual.app import App
+from edceleste.ui.screens.system_check.system_check_screen import SystemCheckScreen
 
 from edceleste.services.journal_watcher_service import JournalWatcherService
 
@@ -34,11 +35,13 @@ class UIApp(App):
         settings_repository: SettingsRepository = Provide[
             Container.settings_repository
         ],
+        system_check_repository=Provide[Container.system_check_repository],
     ) -> None:
         super().__init__()
         self.journal_watcher_service = journal_watcher_service
         self.ed_dashboard_repository = ed_dashboard_repository
         self.settings_repository = settings_repository
+        self.system_check_repository = system_check_repository
 
     def on_mount(self) -> None:
         self.register_theme(amber_theme)
