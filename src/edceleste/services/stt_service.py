@@ -137,7 +137,8 @@ class SttService:
         yield status
         try:
             self.reload_service()
-            self.load_stt_model()
+            if self.enabled:
+                self.load_stt_model()
             status.completed = True
             yield status
         except Exception as e:

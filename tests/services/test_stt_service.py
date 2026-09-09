@@ -310,6 +310,19 @@ class SttServiceTest(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(last_status.message)
         self.mock_load_model.assert_called_once_with(MODEL)
 
+    async def test_cold_start_skips_model_load_when_stt_disabled(self):
+        self.settings_handler.get_settings.return_value = _make_settings(
+            model=MODEL, enabled=False
+        )
+        self.mock_load_model.reset_mock()
+
+        statuses = [status async for status in self.service.cold_start()]
+
+        last_status = statuses[-1]
+        self.assertTrue(last_status.completed)
+        self.assertIsNone(last_status.message)
+        self.mock_load_model.assert_not_called()
+
     async def test_cold_start_yields_error_message_when_model_load_fails(self):
         self.settings_handler.get_settings.return_value = _make_settings(model="")
 
