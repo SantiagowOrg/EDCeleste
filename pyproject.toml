@@ -32,7 +32,7 @@ dependencies = [
     "mdit-py-plugins==0.5.0",
     "mdurl==0.1.2",
     "multidict==6.7.1",
-    "openrouter==0.7.11",
+    "openrouter==1.1.127",
     "platformdirs==4.9.4",
     "propcache==0.4.1",
     "pydantic-settings==2.11.0",
