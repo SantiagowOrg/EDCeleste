@@ -70,9 +70,9 @@ cp config-example.yaml config.yaml
     model: claude-haiku-4-5-20251001
   ```
 
-  Two other providers are supported:
-  - `type: chat_completions` with `model`, `base_url`, and `bearer_token` — any OpenAI-compatible endpoint.
-  - `type: lm_studio` with `model` — a locally running [LM Studio](https://lmstudio.ai) server. The model name must match one loaded in LM Studio.
+  The other supported provider is `type: lm_studio` with `model` — a locally running [LM Studio](https://lmstudio.ai) server. The model name must match one loaded in LM Studio.
+
+  `type: chat_completions` (with `model`, `base_url`, `bearer_token`) exists as a config schema but is **not wired up yet**: `LLMService` rejects it at runtime and settings validation refuses it.
 - `llm.system_prompt` — instructions given to Celeste. `llm.user_prompt` is a saved prompt reserved for future use and is not sent by the current LLM service.
 - `tts.provider` — text-to-speech provider. `type: edge` uses Microsoft Edge's cloud voices (`voice`); `type: chatterbox` clones a local voice `profile` (with `exaggeration`, `cfg_weight`, `device`, `nano`). `tts.volume` must be between `0.0` and `1.0`.
 - `stt.enabled` / `stt.model` / `stt.input_device` — speech-to-text toggle, Whisper model, and optional audio input-device index. Omit `input_device` or set it to `null` to use the system default device.
@@ -80,7 +80,7 @@ cp config-example.yaml config.yaml
 
 - `game_actions.enabled` — safety toggle. When `false` (the default) the LLM cannot press keybinds via the `PerformGameAction` tool.
 
-The Claude Agent SDK uses its own Anthropic authentication setup. When using `chat_completions`, put the endpoint token in `llm.provider.bearer_token`.
+The Claude Agent SDK uses its own Anthropic authentication setup. LM Studio needs no credentials — just a running local server.
 
 ## Usage
 
@@ -136,7 +136,7 @@ ED journal files → JournalWatcherService → EventBus → Projections → Game
 
 - `services/` — core services: event bus, journal watcher, game state, LLM, TTS, STT, event reactions, keybinds, settings.
 - `services/tts_providers/` — pluggable `TtsProviderProtocol` implementations (`EdgeTTSProvider`, `ChatterboxTTSProvider`).
-- `adapters/` — external SDK implementations (`ClaudeAgentSDK`, `LMStudioSDK`, both `LLMSdkProtocol` adapters) and tools (`PerformGameAction`, a `ToolProtocol` implementation the LLM can call).
+- `adapters/` — the two `LLMSdkProtocol` implementations (`ClaudeAgentSDK`, `LMStudioSDK`) and tools (`PerformGameAction`, a `ToolProtocol` implementation the LLM can call).
 - `projection/` — per-concern projections (player, location, fuel) that build the LLM's game-state snapshot.
 - `use_cases/` — thin callables bridging the game/LLM state to UI view models; `use_cases/settings/` holds the settings-editing use cases (get/update settings, list voices/devices, clone a voice, load keybinds).
 - `containers/` — a single `dependency-injector` container wiring everything together.

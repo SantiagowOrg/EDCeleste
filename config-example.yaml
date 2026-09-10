@@ -54,11 +54,5 @@ llm:
   # provider:
   #   type: "lm_studio"
   #   model: "qwen2.5-7b-instruct"
-  # Any OpenAI-compatible chat-completions endpoint.
-  # provider:
-  #   type: "chat_completions"
-  #   model: "gpt-4o-mini"
-  #   base_url: "https://api.example.com/v1"
-  #   bearer_token: "your-token-here"
   system_prompt: "You are a helpful assistant for Elite Dangerous."
   user_prompt: "Summarize the current game state."

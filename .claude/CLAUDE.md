@@ -76,7 +76,7 @@ All source lives under `src/edceleste/`; the paths below are relative to that pa
 
 - No `tkinter` — forbidden by ruff config
 - No direct `rich` imports — use Textual and CSS (`ui/css.tcss`) instead
-- Default LLM: `claude-haiku-4-5-20251001` via the Claude Agent SDK (`adapters/claude_agent_sdk.py`). `LMStudioSDK` (`adapters/lm_studio_sdk.py`) and a chat-completions endpoint are the other `LLMSdkProtocol` implementations; the provider is selected in `config.yaml` and wired in `services/llm_service.py`
+- Default LLM: `claude-haiku-4-5-20251001` via the Claude Agent SDK (`adapters/claude_agent_sdk.py`). `LMStudioSDK` (`adapters/lm_studio_sdk.py`) is the only other `LLMSdkProtocol` implementation; the provider is selected in `config.yaml` and wired in `services/llm_service.py`. `chat_completions` is a valid config schema but `LLMService.determine_provider` rejects it at runtime
 
 ## Ape style code
 - Write a code so understandable that even an ape can understand it. Use simple names and exhausting function and variable names
